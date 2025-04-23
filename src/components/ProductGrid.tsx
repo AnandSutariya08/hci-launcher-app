@@ -1,67 +1,71 @@
 
 import React from 'react';
-import ProductCard from './ProductCard';
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
 
 const products = [
   {
     id: 1,
+    key: "whiteboard",
     title: "Web Whiteboard",
     description: "Interactive digital whiteboard for patient information, care plans, and team collaboration.",
-    iconPath: "/placeholder.svg",
-    launchUrl: "/demos/whiteboard"
+    image: "/demo-images/whiteboard.jpg"
   },
   {
     id: 2,
+    key: "webusb",
     title: "Web USB",
     description: "Secure USB solution for healthcare professionals to access patient data and medical resources.",
-    iconPath: "/placeholder.svg",
-    launchUrl: "/demos/webusb"
+    image: "/demo-images/webusb.jpg"
   },
   {
     id: 3,
+    key: "wallmate",
     title: "Web WallMate",
     description: "Smart room control solution for patients to manage environment and access entertainment.",
-    iconPath: "/placeholder.svg",
-    launchUrl: "/demos/wallmate"
+    image: "/demo-images/wallmate.jpg"
   },
   {
     id: 4,
+    key: "evs",
     title: "EVS",
     description: "Environmental services management platform for housekeeping and maintenance tracking.",
-    iconPath: "/placeholder.svg",
-    launchUrl: "/demos/evs"
+    image: "/demo-images/evs.jpg"
   },
   {
     id: 5,
+    key: "handheldusb",
     title: "Handheld USB",
     description: "Mobile data access solution for clinicians on the move within hospital environments.",
-    iconPath: "/placeholder.svg",
-    launchUrl: "/demos/handheldusb"
+    image: "/demo-images/handheldusb.jpg"
   },
   {
     id: 6,
+    key: "lobbyapp",
     title: "Patient Lobby App",
     description: "Digital check-in and waiting room management for improved patient experience.",
-    iconPath: "/placeholder.svg",
-    launchUrl: "/demos/lobbyapp"
+    image: "/demo-images/lobbyapp.jpg"
   },
   {
     id: 7,
+    key: "launchertv",
     title: "Launcher TV",
     description: "Entertainment and education platform for patient rooms with custom hospital content.",
-    iconPath: "/placeholder.svg",
-    launchUrl: "/demos/launchertv"
+    image: "/demo-images/launchertv.jpg"
   },
   {
     id: 8,
+    key: "discharge",
     title: "Discharge Record App",
     description: "Streamlined discharge process management for clinical staff and patients.",
-    iconPath: "/placeholder.svg",
-    launchUrl: "/demos/discharge"
+    image: "/demo-images/discharge.jpg"
   },
 ];
 
 const ProductGrid = () => {
+  const navigate = useNavigate();
+
   return (
     <section id="products" className="py-16 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -74,13 +78,29 @@ const ProductGrid = () => {
         
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {products.map(product => (
-            <ProductCard
+            <div
               key={product.id}
-              title={product.title}
-              description={product.description}
-              iconPath={product.iconPath}
-              launchUrl={product.launchUrl}
-            />
+              className="bg-white p-6 rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col h-full"
+            >
+              <div className="mb-4 flex justify-center items-center">
+                <img 
+                  src={product.image}
+                  alt={`${product.title} icon`}
+                  className="w-16 h-16 rounded shadow object-cover"
+                />
+              </div>
+              <h3 className="text-xl font-semibold text-hci-navy">{product.title}</h3>
+              <p className="mt-2 text-gray-600 flex-grow">{product.description}</p>
+              <div className="mt-6">
+                <Button 
+                  className="w-full bg-hci-blue hover:bg-hci-blue/90 text-white"
+                  onClick={() => navigate(`/demos/${product.key}`)}
+                >
+                  Launch Demo
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </div>
+            </div>
           ))}
         </div>
       </div>
