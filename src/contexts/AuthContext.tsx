@@ -1,14 +1,14 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { 
-  Auth,
   User,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged
 } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { auth, db } from '@/lib/firebase';
 
 interface AuthContextType {
   user: User | null;
@@ -34,11 +34,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const signUp = async (email: string, password: string) => {
-    await createUserWithEmailAndPassword(auth, email, password);
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    // Store user data in Firestore
+    await setDoc(doc(db, 'Users', userCredential.user.uid), {
+      email: userCredential.user.email,
+      createdAt: new Date().toISOString(),
+      lastLogin: new Date().toISOString()
+    });
   };
 
   const signIn = async (email: string, password: string) => {
-    await signInWithEmailAndPassword(auth, email, password);
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    // Update last login time
+    await setDoc(doc(db, 'Users', userCredential.user.uid), {
+      lastLogin: new Date().toISOString()
+    }, { merge: true });
   };
 
   const logout = async () => {
