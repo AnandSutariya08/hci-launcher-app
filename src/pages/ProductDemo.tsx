@@ -70,9 +70,9 @@ const ProductDemo = () => {
 
   if (!demo) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
-        <div className="bg-white p-8 rounded-xl shadow-lg text-center">
-          <h2 className="text-2xl font-bold text-hci-navy mb-4">Product Not Found</h2>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4">
+        <div className="bg-white p-6 md:p-8 rounded-xl shadow-lg text-center w-full max-w-md">
+          <h2 className="text-xl md:text-2xl font-bold text-hci-navy mb-4">Product Not Found</h2>
           <Button onClick={() => navigate("/")} className="bg-hci-blue text-white">
             Back to Launcher
           </Button>
@@ -84,34 +84,34 @@ const ProductDemo = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-hci-blue/5 via-white to-gray-50 flex flex-col items-center">
       <header className="w-full bg-hci-navy">
-        <div className="max-w-4xl mx-auto flex items-center px-4 py-4">
+        <div className="max-w-4xl mx-auto flex items-center px-4 py-3 md:py-4">
           <Button 
             variant="ghost" 
             size="icon" 
-            className="text-white mr-3 hover:bg-hci-blue/20"
+            className="text-white mr-2 md:mr-3 hover:bg-hci-blue/20"
             onClick={() => navigate('/')}
           >
             <ArrowLeft />
           </Button>
-          <span className="text-xl text-white font-semibold">{demo.name}</span>
+          <span className="text-lg md:text-xl text-white font-semibold">{demo.name}</span>
         </div>
       </header>
-      <main className="flex-grow w-full flex flex-col items-center">
-        <div className="max-w-lg w-full bg-white rounded-xl shadow-xl mt-10 mb-8 overflow-hidden flex flex-col items-center animate-fade-in">
+      <main className="flex-grow w-full flex flex-col items-center px-4 mb-6">
+        <div className="max-w-lg w-full bg-white rounded-xl shadow-xl mt-6 md:mt-10 mb-4 md:mb-8 overflow-hidden flex flex-col items-center animate-fade-in">
           <img 
             src={demo.image} 
             alt={demo.name} 
-            className="w-full h-72 object-cover border-b border-gray-200"
+            className="w-full h-48 sm:h-60 md:h-72 object-cover border-b border-gray-200"
           />
-          <div className="p-6 w-full flex flex-col items-center">
-            <h2 className="text-2xl font-bold text-hci-navy mb-3">{demo.name}</h2>
-            <p className="text-gray-600 text-center mb-6">{demo.description}</p>
+          <div className="p-4 md:p-6 w-full flex flex-col items-center">
+            <h2 className="text-xl md:text-2xl font-bold text-hci-navy mb-2 md:mb-3 text-center">{demo.name}</h2>
+            <p className="text-gray-600 text-center mb-4 md:mb-6 text-sm md:text-base">{demo.description}</p>
             <Button 
               onClick={() => window.open(demo.docsUrl, "_blank")}
-              className="bg-hci-blue hover:bg-hci-blue/90 text-white w-44 flex items-center gap-2"
+              className="bg-hci-blue hover:bg-hci-blue/90 text-white w-full sm:w-44 flex items-center justify-center gap-2"
               size="lg"
             >
-              <BookOpen className="h-5 w-5" />
+              <BookOpen className="h-4 w-4 md:h-5 md:w-5" />
               Know More
             </Button>
           </div>

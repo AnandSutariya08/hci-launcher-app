@@ -11,33 +11,33 @@ const stats = [
 
 const AboutSection = () => {
   return (
-    <section id="about" className="py-16 bg-white">
+    <section id="about" className="py-10 sm:py-12 md:py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
+        <div className="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16 items-center">
           <div>
-            <h2 className="text-3xl font-bold text-hci-navy">About HCI Global</h2>
-            <p className="mt-6 text-lg text-gray-600">
+            <h2 className="text-2xl sm:text-3xl font-bold text-hci-navy">About HCI Global</h2>
+            <p className="mt-4 sm:mt-6 text-base md:text-lg text-gray-600">
               For over 20 years, HCI Global has been at the forefront of developing innovative healthcare 
               technology solutions that transform hospital rooms into smart, connected healing spaces.
             </p>
-            <p className="mt-4 text-gray-600">
+            <p className="mt-3 md:mt-4 text-base text-gray-600">
               Our mission is to improve patient experiences, streamline clinical workflows, and help 
               healthcare facilities deliver better care through thoughtfully designed technology.
             </p>
             
-            <div className="mt-8">
+            <div className="mt-6 md:mt-8">
               <Button className="bg-hci-blue hover:bg-hci-blue/90 text-white">
                 Visit Company Website
               </Button>
             </div>
           </div>
           
-          <div className="mt-10 lg:mt-0">
-            <dl className="grid grid-cols-2 gap-x-4 gap-y-8">
+          <div className="mt-8 lg:mt-0">
+            <dl className="grid grid-cols-2 gap-x-4 gap-y-6 sm:gap-y-8">
               {stats.map((stat) => (
-                <div key={stat.id} className="border-t-2 border-hci-blue/30 pt-6">
-                  <dt className="text-base font-medium text-gray-500">{stat.label}</dt>
-                  <dd className="text-4xl font-bold tracking-tight text-hci-blue">{stat.value}</dd>
+                <div key={stat.id} className="border-t-2 border-hci-blue/30 pt-4 sm:pt-6">
+                  <dt className="text-sm sm:text-base font-medium text-gray-500">{stat.label}</dt>
+                  <dd className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-hci-blue">{stat.value}</dd>
                 </div>
               ))}
             </dl>
