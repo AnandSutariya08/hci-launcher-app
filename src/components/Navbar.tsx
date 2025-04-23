@@ -2,11 +2,15 @@
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogIn, UserPlus } from "lucide-react";
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Navbar = () => {
   const isMobile = useIsMobile();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
@@ -24,16 +28,39 @@ const Navbar = () => {
           </div>
           
           {/* Desktop Menu */}
-          <div className="hidden md:flex items-center">
+          <div className="hidden md:flex items-center space-x-4">
             <Button variant="ghost" className="text-hci-navy hover:text-hci-blue" asChild>
               <a href="#products">Products</a>
             </Button>
             <Button variant="ghost" className="text-hci-navy hover:text-hci-blue" asChild>
               <a href="#about">About HCI</a>
             </Button>
-            <Button className="ml-4 bg-hci-blue hover:bg-hci-blue/90 text-white">
-              Contact Sales
-            </Button>
+            {user ? (
+              <Button 
+                onClick={() => logout()} 
+                className="ml-4 bg-hci-blue hover:bg-hci-blue/90 text-white"
+              >
+                Sign out
+              </Button>
+            ) : (
+              <>
+                <Button 
+                  onClick={() => navigate('/auth/signin')} 
+                  variant="ghost" 
+                  className="text-hci-navy hover:text-hci-blue"
+                >
+                  <LogIn className="mr-2 h-4 w-4" />
+                  Sign in
+                </Button>
+                <Button 
+                  onClick={() => navigate('/auth/signup')} 
+                  className="bg-hci-blue hover:bg-hci-blue/90 text-white"
+                >
+                  <UserPlus className="mr-2 h-4 w-4" />
+                  Sign up
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -69,11 +96,41 @@ const Navbar = () => {
             >
               About HCI
             </a>
-            <div className="px-3 py-2">
-              <Button className="w-full bg-hci-blue hover:bg-hci-blue/90 text-white">
-                Contact Sales
+            {user ? (
+              <Button 
+                onClick={() => {
+                  logout();
+                  setIsMenuOpen(false);
+                }}
+                className="w-full mt-2 bg-hci-blue hover:bg-hci-blue/90 text-white"
+              >
+                Sign out
               </Button>
-            </div>
+            ) : (
+              <>
+                <Button 
+                  onClick={() => {
+                    navigate('/auth/signin');
+                    setIsMenuOpen(false);
+                  }}
+                  variant="ghost" 
+                  className="w-full text-hci-navy hover:bg-gray-50"
+                >
+                  <LogIn className="mr-2 h-4 w-4" />
+                  Sign in
+                </Button>
+                <Button 
+                  onClick={() => {
+                    navigate('/auth/signup');
+                    setIsMenuOpen(false);
+                  }}
+                  className="w-full mt-2 bg-hci-blue hover:bg-hci-blue/90 text-white"
+                >
+                  <UserPlus className="mr-2 h-4 w-4" />
+                  Sign up
+                </Button>
+              </>
+            )}
           </div>
         </div>
       )}
