@@ -32,7 +32,7 @@ const SignIn = () => {
       toast({
         variant: "destructive",
         title: "Error",
-        description: "Failed to sign in. Please check your credentials.",
+        description: "Invalid credentials. Use demo@example.com / password123",
       });
     }
   };
@@ -42,6 +42,9 @@ const SignIn = () => {
       <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-xl shadow-lg">
         <div>
           <h2 className="mt-6 text-center text-3xl font-bold text-hci-navy">Sign in to HCI Global</h2>
+          <p className="mt-2 text-center text-sm text-gray-600">
+            Demo credentials: demo@example.com / password123
+          </p>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-4">
@@ -76,17 +79,10 @@ const SignIn = () => {
               )}
             </div>
           </div>
-          <div>
-            <Button type="submit" className="w-full bg-hci-blue hover:bg-hci-blue/90">
-              Sign in
-            </Button>
-          </div>
-        </form>
-        <div className="text-center">
-          <Button variant="link" className="text-hci-blue" onClick={() => navigate('/auth/signup')}>
-            Don't have an account? Sign up
+          <Button type="submit" className="w-full bg-hci-blue hover:bg-hci-blue/90">
+            Sign in
           </Button>
-        </div>
+        </form>
       </div>
     </div>
   );

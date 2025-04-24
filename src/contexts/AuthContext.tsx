@@ -1,71 +1,50 @@
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { 
-  User,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged
-} from 'firebase/auth';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
-import { auth, db } from '@/lib/firebase';
+import React, { createContext, useContext, useState } from 'react';
 
 interface AuthContextType {
-  user: User | null;
+  user: { email: string } | null;
   loading: boolean;
-  signUp: (email: string, password: string) => Promise<void>;
   signIn: (email: string, password: string) => Promise<void>;
-  logout: () => Promise<void>;
+  logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Static credentials
+const VALID_EMAIL = "demo@example.com";
+const VALID_PASSWORD = "password123";
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user);
-      setLoading(false);
-    });
-
-    return unsubscribe;
-  }, []);
-
-  const signUp = async (email: string, password: string) => {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    // Store user data in Firestore
-    await setDoc(doc(db, 'Users', userCredential.user.uid), {
-      email: userCredential.user.email,
-      createdAt: new Date().toISOString(),
-      lastLogin: new Date().toISOString()
-    });
-  };
+  const [user, setUser] = useState<{ email: string } | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const signIn = async (email: string, password: string) => {
-    const userCredential = await signInWithEmailAndPassword(auth, email, password);
-    // Update last login time
-    await setDoc(doc(db, 'Users', userCredential.user.uid), {
-      lastLogin: new Date().toISOString()
-    }, { merge: true });
+    setLoading(true);
+    try {
+      if (email === VALID_EMAIL && password === VALID_PASSWORD) {
+        setUser({ email });
+      } else {
+        throw new Error('Invalid credentials');
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const logout = async () => {
-    await signOut(auth);
+  const logout = () => {
+    setUser(null);
   };
 
   const value = {
     user,
     loading,
-    signUp,
     signIn,
     logout
   };
 
   return (
     <AuthContext.Provider value={value}>
-      {!loading && children}
+      {children}
     </AuthContext.Provider>
   );
 }
