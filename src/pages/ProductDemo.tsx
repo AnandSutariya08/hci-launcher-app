@@ -1,3 +1,4 @@
+
 import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -29,42 +30,84 @@ const productMap: {
     description: "Secure USB access for healthcare professionals.",
     image: "/demo-images/webusb.jpg",
     docsUrl: "https://docs.hci.gitbook.io/web-usb",
+    features: [
+      "Secure device access",
+      "Patient data integration",
+      "Medical record scanning",
+      "Credential management"
+    ]
   },
   wallmate: {
     name: "Web WallMate",
     description: "Smart room control for patients to manage their environment.",
     image: "/demo-images/wallmate.jpg",
     docsUrl: "https://docs.hci.gitbook.io/web-wallmate",
+    features: [
+      "Room temperature control",
+      "Lighting adjustments",
+      "Entertainment system integration",
+      "Nurse call functionality"
+    ]
   },
   evs: {
     name: "EVS",
     description: "Housekeeping & maintenance tracking for hospital environments.",
     image: "/demo-images/evs.jpg",
     docsUrl: "https://docs.hci.gitbook.io/evs",
+    features: [
+      "Room cleaning status",
+      "Maintenance request tracking",
+      "Staff assignment",
+      "Inventory management"
+    ]
   },
   handheldusb: {
     name: "Handheld USB",
     description: "Mobile solution for clinicians to access data anywhere.",
     image: "/demo-images/handheldusb.jpg",
     docsUrl: "https://docs.hci.gitbook.io/handheld-usb",
+    features: [
+      "Mobile data access",
+      "Secure authentication",
+      "Offline capability",
+      "Cross-device synchronization"
+    ]
   },
   lobbyapp: {
     name: "Patient Lobby App",
     description: "Digital check-in & waiting room experience for patients.",
     image: "/demo-images/lobbyapp.jpg",
     docsUrl: "https://docs.hci.gitbook.io/lobby-app",
+    features: [
+      "Digital check-in",
+      "Wait time estimation",
+      "Form completion",
+      "Notification system"
+    ]
   },
   launchertv: {
     name: "Launcher TV",
     description: "Education & entertainment platform for in-room patient engagement.",
     image: "/demo-images/launchertv.jpg",
     docsUrl: "https://docs.hci.gitbook.io/launcher-tv",
+    features: [
+      "Entertainment streaming",
+      "Educational content",
+      "Hospital information",
+      "Virtual consultations"
+    ]
   },
   discharge: {
     name: "Discharge Record App",
     description: "Streamlined discharge process for staff & patients.",
     image: "/demo-images/discharge.jpg",
     docsUrl: "https://docs.hci.gitbook.io/discharge-record-app",
+    features: [
+      "Discharge checklist",
+      "Medication instructions",
+      "Follow-up scheduling",
+      "Digital documentation"
+    ]
   },
 };
 
@@ -165,7 +208,7 @@ const ProductDemo = () => {
           <div className="max-w-7xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-center text-hci-navy mb-12">Key Features</h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {demo.features.map((feature, index) => (
+              {demo.features && demo.features.map((feature, index) => (
                 <div 
                   key={index}
                   className="scroll-animate bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300"
