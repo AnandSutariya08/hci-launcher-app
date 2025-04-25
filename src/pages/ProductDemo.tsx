@@ -1,8 +1,7 @@
-
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, BookOpen } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
 const productMap: {
   [key: string]: {
@@ -10,6 +9,7 @@ const productMap: {
     description: string;
     image: string;
     docsUrl: string;
+    features: string[];
   }
 } = {
   whiteboard: {
@@ -17,6 +17,12 @@ const productMap: {
     description: "Interactive digital whiteboard for patient info, care plans & team collaboration.",
     image: "/demo-images/whiteboard.jpg",
     docsUrl: "https://docs.hci.gitbook.io/web-whiteboard",
+    features: [
+      "Real-time collaboration",
+      "Patient information tracking",
+      "Care plan visualization",
+      "Team messaging integration"
+    ]
   },
   webusb: {
     name: "Web USB",
@@ -68,6 +74,28 @@ const ProductDemo = () => {
 
   const demo = productMap[demoId ?? ""] || null;
 
+  useEffect(() => {
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-fade-in', 'opacity-100');
+          entry.target.classList.remove('opacity-0', 'translate-y-10');
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, {
+      threshold: 0.1
+    });
+
+    document.querySelectorAll('.scroll-animate').forEach((element) => {
+      element.classList.add('opacity-0', 'translate-y-10', 'transition-all', 'duration-700');
+      observer.observe(element);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
   if (!demo) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4">
@@ -82,40 +110,89 @@ const ProductDemo = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-hci-blue/5 via-white to-gray-50 flex flex-col items-center">
-      <header className="w-full bg-hci-navy">
-        <div className="max-w-4xl mx-auto flex items-center px-4 py-3 md:py-4">
+    <div className="min-h-screen bg-gradient-to-b from-hci-blue/5 via-white to-gray-50">
+      <header className="fixed top-0 w-full bg-white/80 backdrop-blur-sm z-50 border-b border-gray-200">
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3 md:py-4">
+          <div className="flex items-center gap-3">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="hover:bg-hci-blue/10"
+              onClick={() => navigate('/')}
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </Button>
+            <span className="text-lg md:text-xl font-semibold text-hci-navy">{demo.name}</span>
+          </div>
           <Button 
-            variant="ghost" 
-            size="icon" 
-            className="text-white mr-2 md:mr-3 hover:bg-hci-blue/20"
-            onClick={() => navigate('/')}
+            onClick={() => window.open(demo.docsUrl, "_blank")}
+            className="bg-hci-blue hover:bg-hci-blue/90 text-white"
           >
-            <ArrowLeft />
+            Documentation
+            <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
-          <span className="text-lg md:text-xl text-white font-semibold">{demo.name}</span>
         </div>
       </header>
-      <main className="flex-grow w-full flex flex-col items-center px-4 mb-6">
-        <div className="max-w-lg w-full bg-white rounded-xl shadow-xl mt-6 md:mt-10 mb-4 md:mb-8 overflow-hidden flex flex-col items-center animate-fade-in">
-          <img 
-            src={demo.image} 
-            alt={demo.name} 
-            className="w-full h-48 sm:h-60 md:h-72 object-cover border-b border-gray-200"
-          />
-          <div className="p-4 md:p-6 w-full flex flex-col items-center">
-            <h2 className="text-xl md:text-2xl font-bold text-hci-navy mb-2 md:mb-3 text-center">{demo.name}</h2>
-            <p className="text-gray-600 text-center mb-4 md:mb-6 text-sm md:text-base">{demo.description}</p>
-            <Button 
-              onClick={() => window.open(demo.docsUrl, "_blank")}
-              className="bg-hci-blue hover:bg-hci-blue/90 text-white w-full sm:w-44 flex items-center justify-center gap-2"
-              size="lg"
-            >
-              <BookOpen className="h-4 w-4 md:h-5 md:w-5" />
-              Know More
-            </Button>
+
+      <main className="pt-20">
+        <section className="scroll-animate px-4 py-12 md:py-20">
+          <div className="max-w-7xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-8 items-center">
+              <div>
+                <h1 className="text-4xl md:text-5xl font-bold text-hci-navy mb-6">{demo.name}</h1>
+                <p className="text-lg text-gray-600 mb-8">{demo.description}</p>
+                <Button 
+                  className="bg-hci-blue hover:bg-hci-blue/90 text-white text-lg px-8 py-6"
+                  onClick={() => window.open(demo.docsUrl, "_blank")}
+                >
+                  Start Demo
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </div>
+              <div className="relative">
+                <div className="absolute -inset-4 bg-gradient-to-r from-hci-blue/20 to-purple-500/20 rounded-lg blur-3xl opacity-30" />
+                <img 
+                  src={demo.image} 
+                  alt={demo.name}
+                  className="relative rounded-lg shadow-2xl w-full"
+                />
+              </div>
+            </div>
           </div>
-        </div>
+        </section>
+
+        <section className="scroll-animate px-4 py-12 md:py-20 bg-gray-50">
+          <div className="max-w-7xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-center text-hci-navy mb-12">Key Features</h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {demo.features.map((feature, index) => (
+                <div 
+                  key={index}
+                  className="scroll-animate bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300"
+                >
+                  <div className="h-12 w-12 bg-hci-blue/10 rounded-lg flex items-center justify-center mb-4">
+                    <div className="h-6 w-6 bg-hci-blue rounded-md" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-hci-navy mb-2">{feature}</h3>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="scroll-animate px-4 py-12 md:py-20">
+          <div className="max-w-7xl mx-auto text-center">
+            <h2 className="text-3xl md:text-4xl font-bold text-hci-navy mb-12">Preview</h2>
+            <div className="relative rounded-lg overflow-hidden shadow-2xl">
+              <div className="absolute -inset-4 bg-gradient-to-r from-hci-blue/20 to-purple-500/20 rounded-lg blur-3xl opacity-30" />
+              <img 
+                src={demo.image} 
+                alt={`${demo.name} preview`}
+                className="relative w-full rounded-lg"
+              />
+            </div>
+          </div>
+        </section>
       </main>
     </div>
   );
