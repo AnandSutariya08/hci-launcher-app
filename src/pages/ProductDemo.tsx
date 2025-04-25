@@ -1,4 +1,3 @@
-
 import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -128,11 +127,12 @@ const ProductDemo = () => {
     };
 
     const observer = new IntersectionObserver(observerCallback, {
-      threshold: 0.1
+      threshold: 0.1,
+      rootMargin: '20px'
     });
 
     document.querySelectorAll('.scroll-animate').forEach((element) => {
-      element.classList.add('opacity-0', 'translate-y-10', 'transition-all', 'duration-700');
+      element.classList.add('opacity-0', 'translate-y-10', 'transition-all', 'duration-1000');
       observer.observe(element);
     });
 
@@ -153,7 +153,7 @@ const ProductDemo = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-hci-blue/5 via-white to-gray-50">
+    <div className="min-h-screen bg-gradient-to-b from-hci-navy/5 via-white to-gray-50">
       <header className="fixed top-0 w-full bg-white/80 backdrop-blur-sm z-50 border-b border-gray-200">
         <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3 md:py-4">
           <div className="flex items-center gap-3">
@@ -177,62 +177,49 @@ const ProductDemo = () => {
         </div>
       </header>
 
-      <main className="pt-20">
-        <section className="scroll-animate px-4 py-12 md:py-20">
+      <main className="pt-24">
+        <section className="scroll-animate px-4 py-12 md:py-20 min-h-[80vh] flex items-center">
           <div className="max-w-7xl mx-auto">
-            <div className="grid md:grid-cols-2 gap-8 items-center">
-              <div>
-                <h1 className="text-4xl md:text-5xl font-bold text-hci-navy mb-6">{demo.name}</h1>
-                <p className="text-lg text-gray-600 mb-8">{demo.description}</p>
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div className="order-2 lg:order-1">
+                <h1 className="text-4xl md:text-6xl font-bold text-hci-navy mb-6 leading-tight">{demo.name}</h1>
+                <p className="text-xl text-gray-600 mb-8 leading-relaxed">{demo.description}</p>
                 <Button 
-                  className="bg-hci-blue hover:bg-hci-blue/90 text-white text-lg px-8 py-6"
+                  className="bg-hci-blue hover:bg-hci-blue/90 text-white text-lg px-8 py-6 rounded-xl transform transition-transform hover:scale-105"
                   onClick={() => window.open(demo.docsUrl, "_blank")}
                 >
                   Start Demo
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </div>
-              <div className="relative">
-                <div className="absolute -inset-4 bg-gradient-to-r from-hci-blue/20 to-purple-500/20 rounded-lg blur-3xl opacity-30" />
+              <div className="order-1 lg:order-2 relative">
+                <div className="absolute inset-0 bg-gradient-to-br from-hci-blue/20 to-purple-500/20 rounded-2xl blur-3xl opacity-30 transform rotate-3" />
                 <img 
                   src={demo.image} 
                   alt={demo.name}
-                  className="relative rounded-lg shadow-2xl w-full"
+                  className="relative rounded-2xl shadow-2xl w-full transform hover:rotate-2 transition-transform duration-500 hover:scale-105"
                 />
               </div>
             </div>
           </div>
         </section>
 
-        <section className="scroll-animate px-4 py-12 md:py-20 bg-gray-50">
-          <div className="max-w-7xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold text-center text-hci-navy mb-12">Key Features</h2>
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <section className="scroll-animate px-4 py-16 md:py-24 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
+          <div className="absolute inset-0 bg-grid-pattern opacity-5" />
+          <div className="max-w-7xl mx-auto relative">
+            <h2 className="text-3xl md:text-5xl font-bold text-center text-hci-navy mb-16">Key Features</h2>
+            <div className="grid md:grid-cols-2 gap-8">
               {demo.features && demo.features.map((feature, index) => (
                 <div 
                   key={index}
-                  className="scroll-animate bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300"
+                  className="scroll-animate bg-white/50 backdrop-blur-sm p-8 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100"
                 >
-                  <div className="h-12 w-12 bg-hci-blue/10 rounded-lg flex items-center justify-center mb-4">
-                    <div className="h-6 w-6 bg-hci-blue rounded-md" />
+                  <div className="h-12 w-12 bg-gradient-to-br from-hci-blue to-purple-500 rounded-xl flex items-center justify-center mb-6">
+                    <div className="h-6 w-6 bg-white/90 rounded-lg" />
                   </div>
-                  <h3 className="text-xl font-semibold text-hci-navy mb-2">{feature}</h3>
+                  <h3 className="text-xl md:text-2xl font-semibold text-hci-navy mb-4">{feature}</h3>
                 </div>
               ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="scroll-animate px-4 py-12 md:py-20">
-          <div className="max-w-7xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-hci-navy mb-12">Preview</h2>
-            <div className="relative rounded-lg overflow-hidden shadow-2xl">
-              <div className="absolute -inset-4 bg-gradient-to-r from-hci-blue/20 to-purple-500/20 rounded-lg blur-3xl opacity-30" />
-              <img 
-                src={demo.image} 
-                alt={`${demo.name} preview`}
-                className="relative w-full rounded-lg"
-              />
             </div>
           </div>
         </section>
