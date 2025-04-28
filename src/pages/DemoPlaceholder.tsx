@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -24,23 +23,23 @@ const DemoPlaceholder = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      <header className="bg-hci-navy text-white p-4 shadow-md">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          <div className="flex items-center">
+      <header className="fixed top-0 w-full bg-white/80 backdrop-blur-sm z-50 border-b border-gray-200">
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3 md:py-4">
+          <div className="flex items-center gap-3">
             <Button 
               variant="ghost" 
               size="icon" 
-              className="text-white mr-4 hover:bg-white/10"
+              className="hover:bg-hci-blue/10"
               onClick={() => navigate('/')}
             >
-              <ArrowLeft />
+              <ArrowLeft className="h-5 w-5" />
             </Button>
-            <h1 className="text-xl font-semibold">{title} <span className="text-sm font-normal bg-hci-blue/20 px-2 py-1 rounded ml-2">Demo Version</span></h1>
+            <span className="text-lg md:text-xl font-semibold text-hci-navy">{title}</span>
           </div>
         </div>
       </header>
       
-      <main className="flex-grow flex items-center justify-center p-8">
+      <main className="flex-grow flex items-center justify-center p-8 pt-24">
         <div className="bg-white p-8 rounded-lg shadow-lg text-center max-w-2xl">
           <div className="mb-6 mx-auto w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center">
             <img src="/placeholder.svg" alt="Demo icon" className="w-12 h-12" />

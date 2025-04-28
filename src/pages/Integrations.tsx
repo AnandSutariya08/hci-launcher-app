@@ -1,10 +1,10 @@
-
 import React from "react";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { integrations } from "@/data/integrations";
 import IntegrationCard from "@/components/integrations/IntegrationCard";
-import { Hospital, Building, Check } from "lucide-react";
+import { Hospital, Building, Check, ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 const benefits = [
   "Unified patient data across all systems",
@@ -16,10 +16,26 @@ const benefits = [
 ];
 
 const Integrations = () => {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen bg-white">
-      <Navbar />
-      <main>
+      <header className="fixed top-0 w-full bg-white/80 backdrop-blur-sm z-50 border-b border-gray-200">
+        <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3 md:py-4">
+          <div className="flex items-center gap-3">
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="hover:bg-hci-blue/10"
+              onClick={() => navigate('/')}
+            >
+              <ArrowLeft className="h-5 w-5" />
+            </Button>
+            <span className="text-lg md:text-xl font-semibold text-hci-navy">Integrations</span>
+          </div>
+        </div>
+      </header>
+      <main className="pt-24">
         {/* Hero Section */}
         <section className="pt-24 pb-16 md:pt-32 md:pb-24 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
           <div className="absolute inset-0 bg-grid-pattern opacity-5" />
