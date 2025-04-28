@@ -11,6 +11,7 @@ import DemoPlaceholder from "./pages/DemoPlaceholder";
 import NotFound from "./pages/NotFound";
 import ProductDemo from "./pages/ProductDemo";
 import Integrations from "./pages/Integrations";
+import IntegrationDetail from "./pages/IntegrationDetail";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +32,11 @@ const App = () => (
             <Route path="/integrations" element={
               <ProtectedRoute>
                 <Integrations />
+              </ProtectedRoute>
+            } />
+            <Route path="/integrations/:id" element={
+              <ProtectedRoute>
+                <IntegrationDetail />
               </ProtectedRoute>
             } />
             <Route path="/demos/:demoId" element={

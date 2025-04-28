@@ -1,10 +1,13 @@
-
 export interface Integration {
   id: number;
   name: string;
   description: string;
   category: "EMR" | "Medical Equipment" | "Infrastructure" | "Communication";
   logo: string;
+  features?: string[];
+  benefits?: string[];
+  technicalDetails?: string;
+  requirements?: string[];
 }
 
 export const integrations: Integration[] = [
@@ -13,7 +16,28 @@ export const integrations: Integration[] = [
     name: "Epic",
     description: "Leading electronic health record system used by top healthcare organizations for comprehensive patient care management.",
     category: "EMR",
-    logo: "/integration-logos/epic.svg"
+    logo: "/integration-logos/epic.svg",
+    features: [
+      "Comprehensive electronic health records",
+      "Patient portal integration",
+      "Clinical decision support",
+      "Population health management",
+      "Revenue cycle management"
+    ],
+    benefits: [
+      "Streamlined clinical workflows",
+      "Enhanced patient engagement",
+      "Improved care coordination",
+      "Reduced medical errors",
+      "Better revenue cycle performance"
+    ],
+    technicalDetails: "Epic integration is achieved through a combination of HL7, FHIR, and proprietary APIs. Our platform ensures seamless data exchange and real-time synchronization with Epic's EHR system.",
+    requirements: [
+      "Epic EHR system version 2018 or later",
+      "Valid Epic API credentials",
+      "Secure VPN connection to Epic servers",
+      "SSL certificates for secure data transmission"
+    ]
   },
   {
     id: 2,
