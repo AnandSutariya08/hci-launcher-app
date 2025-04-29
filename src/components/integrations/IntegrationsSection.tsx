@@ -17,14 +17,15 @@ const IntegrationsSection = () => {
     if (!scrollContainer) return;
 
     // Clone the logos to create a seamless loop
-    const content = scrollContainer.querySelector('.scroll-content');
+    const content = scrollContainer.querySelector('.scroll-content') as HTMLElement;
     if (!content) return;
 
     // Ensure we have a clone for continuous scrolling
     const existingClone = scrollContainer.querySelector('.scroll-clone');
     if (!existingClone) {
-      const clone = content.cloneNode(true);
-      clone.classList.add('scroll-clone');
+      const clone = content.cloneNode(true) as HTMLElement;
+      // Using setAttribute instead of classList to avoid TypeScript error
+      clone.setAttribute('class', clone.getAttribute('class') + ' scroll-clone');
       scrollContainer.appendChild(clone);
     }
 
@@ -36,8 +37,8 @@ const IntegrationsSection = () => {
       if (scrollContainer.scrollLeft >= content.scrollWidth) {
         scrollContainer.scrollLeft = 0;
       } else {
-        // Very reduced scrolling speed (0.1px per frame)
-        scrollContainer.scrollLeft += 0.1;
+        // Very reduced scrolling speed (0.05px per frame for even slower animation)
+        scrollContainer.scrollLeft += 0.05;
       }
       
       requestAnimationFrame(animate);
@@ -81,14 +82,14 @@ const IntegrationsSection = () => {
         </div>
 
         <div className="mb-12 relative overflow-hidden">
-          {/* Continuous scrolling container */}
+          {/* Continuous scrolling container with forced width to ensure scrolling */}
           <div 
             ref={scrollRef}
             className="overflow-x-scroll scrollbar-hide whitespace-nowrap"
             style={{ 
               scrollbarWidth: 'none', 
               msOverflowStyle: 'none',
-              WebkitOverflowScrolling: 'touch' 
+              WebkitOverflowScrolling: 'touch'
             }}
           >
             <div className="scroll-content inline-flex gap-6">
