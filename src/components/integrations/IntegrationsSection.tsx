@@ -1,22 +1,60 @@
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { integrations } from "@/data/integrations";
-import IntegrationCard from "./IntegrationCard";
 import { Hospital, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import { 
-  Carousel, 
-  CarouselContent, 
-  CarouselItem, 
-  CarouselNext, 
-  CarouselPrevious 
-} from "@/components/ui/carousel";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const IntegrationsSection = () => {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Set up the continuous scrolling animation
+  useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+
+    // Clone the logos to create a seamless loop
+    const content = scrollContainer.querySelector('.scroll-content');
+    if (!content) return;
+
+    const clone = content.cloneNode(true);
+    scrollContainer.appendChild(clone);
+
+    // Animation function for continuous scroll
+    const animate = () => {
+      if (!scrollContainer) return;
+      
+      if (scrollContainer.scrollLeft >= content.scrollWidth) {
+        scrollContainer.scrollLeft = 0;
+      } else {
+        scrollContainer.scrollLeft += 1;
+      }
+      
+      requestAnimationFrame(animate);
+    };
+
+    // Start the animation
+    let animationId = requestAnimationFrame(animate);
+
+    // Pause on hover
+    const handleMouseEnter = () => cancelAnimationFrame(animationId);
+    const handleMouseLeave = () => {
+      animationId = requestAnimationFrame(animate);
+    };
+
+    scrollContainer.addEventListener('mouseenter', handleMouseEnter);
+    scrollContainer.addEventListener('mouseleave', handleMouseLeave);
+
+    // Clean up
+    return () => {
+      cancelAnimationFrame(animationId);
+      scrollContainer.removeEventListener('mouseenter', handleMouseEnter);
+      scrollContainer.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, []);
 
   return (
     <section id="integrations" className="py-16 md:py-24 bg-gradient-to-b from-white to-gray-50 overflow-hidden">
@@ -36,31 +74,33 @@ const IntegrationsSection = () => {
         </div>
 
         <div className="mb-12 relative">
-          <Carousel
-            opts={{
-              align: "start",
-              loop: true,
-              dragFree: true,
-              containScroll: "trimSnaps"
-            }}
-            className="w-full"
+          {/* Continuous scrolling container */}
+          <div 
+            ref={scrollRef}
+            className="overflow-x-scroll scrollbar-hide whitespace-nowrap"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
-            <CarouselContent className="-ml-4">
+            <div className="scroll-content inline-flex gap-4">
               {integrations.map((integration) => (
-                <CarouselItem 
-                  key={integration.id} 
-                  className={`pl-4 ${isMobile ? 'basis-full' : 'sm:basis-1/2 md:basis-1/3 lg:basis-1/4'}`}
+                <div 
+                  key={integration.id}
+                  className="w-52 bg-white rounded-lg p-6 border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
+                  onClick={() => navigate(`/integrations/${integration.id}`)}
                 >
-                  <IntegrationCard integration={integration} />
-                </CarouselItem>
+                  <div className="h-16 flex items-center justify-center mb-4">
+                    <img
+                      src={integration.logo}
+                      alt={`${integration.name} logo`}
+                      className="max-h-12 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+                    />
+                  </div>
+                  <h3 className="font-semibold text-center text-lg text-hci-navy truncate">
+                    {integration.name}
+                  </h3>
+                </div>
               ))}
-            </CarouselContent>
-            
-            <div className="absolute -bottom-12 w-full flex justify-center gap-2 mt-4">
-              <CarouselPrevious className="static transform-none mx-2 bg-white shadow-md hover:bg-gray-50" />
-              <CarouselNext className="static transform-none mx-2 bg-white shadow-md hover:bg-gray-50" />
             </div>
-          </Carousel>
+          </div>
         </div>
 
         <div className="text-center mt-16">
