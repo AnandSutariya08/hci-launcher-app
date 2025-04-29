@@ -20,18 +20,24 @@ const IntegrationsSection = () => {
     const content = scrollContainer.querySelector('.scroll-content');
     if (!content) return;
 
-    const clone = content.cloneNode(true);
-    scrollContainer.appendChild(clone);
+    // Ensure we have a clone for continuous scrolling
+    const existingClone = scrollContainer.querySelector('.scroll-clone');
+    if (!existingClone) {
+      const clone = content.cloneNode(true);
+      clone.classList.add('scroll-clone');
+      scrollContainer.appendChild(clone);
+    }
 
-    // Animation function for continuous scroll - SLOWER SPEED
+    // Animation function for continuous scroll - VERY SLOW SPEED
     const animate = () => {
       if (!scrollContainer) return;
       
+      // If we've scrolled past the first set of logos, reset to beginning
       if (scrollContainer.scrollLeft >= content.scrollWidth) {
         scrollContainer.scrollLeft = 0;
       } else {
-        // Reduced speed from 1px to 0.3px per frame
-        scrollContainer.scrollLeft += 0.3;
+        // Very reduced scrolling speed (0.1px per frame)
+        scrollContainer.scrollLeft += 0.1;
       }
       
       requestAnimationFrame(animate);
@@ -74,18 +80,22 @@ const IntegrationsSection = () => {
           </p>
         </div>
 
-        <div className="mb-12 relative">
+        <div className="mb-12 relative overflow-hidden">
           {/* Continuous scrolling container */}
           <div 
             ref={scrollRef}
             className="overflow-x-scroll scrollbar-hide whitespace-nowrap"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            style={{ 
+              scrollbarWidth: 'none', 
+              msOverflowStyle: 'none',
+              WebkitOverflowScrolling: 'touch' 
+            }}
           >
-            <div className="scroll-content inline-flex gap-4">
+            <div className="scroll-content inline-flex gap-6">
               {integrations.map((integration) => (
                 <div 
                   key={integration.id}
-                  className="w-52 bg-white rounded-lg p-6 border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
+                  className="w-52 bg-white rounded-lg p-6 border border-gray-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
                   onClick={() => navigate(`/integrations/${integration.id}`)}
                 >
                   <div className="h-16 flex items-center justify-center mb-4">
