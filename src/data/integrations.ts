@@ -1,3 +1,4 @@
+
 export interface Integration {
   id: number;
   name: string;
@@ -101,5 +102,33 @@ export const integrations: Integration[] = [
     description: "Healthcare technology spanning patient monitoring, diagnostic imaging, and clinical informatics.",
     category: "Medical Equipment",
     logo: "/integration-logos/phillips.svg"
+  },
+  {
+    id: 11,
+    name: "Jeron",
+    description: "Provider of nurse call systems and electronic communications solutions for healthcare facilities.",
+    category: "Communication",
+    logo: "/integration-logos/jeron.svg",
+    features: [
+      "Advanced nurse call systems",
+      "Patient-to-staff communications",
+      "Workflow optimization",
+      "Emergency response management",
+      "Integration with mobile devices"
+    ],
+    benefits: [
+      "Improved response times",
+      "Enhanced patient satisfaction",
+      "Increased staff efficiency",
+      "Better care coordination",
+      "Reduced alarm fatigue"
+    ],
+    technicalDetails: "Jeron integration leverages API-based connectivity and standard protocols to enable seamless communication between our platform and Jeron's Provider nurse call systems.",
+    requirements: [
+      "Provider® 790 or Provider® 680 system",
+      "Network connectivity through TCP/IP",
+      "Integration license from Jeron",
+      "Middleware for legacy systems"
+    ]
   }
 ];

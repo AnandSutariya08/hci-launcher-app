@@ -5,12 +5,21 @@ import { integrations } from "@/data/integrations";
 import IntegrationCard from "./IntegrationCard";
 import { Hospital, ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { 
+  Carousel, 
+  CarouselContent, 
+  CarouselItem, 
+  CarouselNext, 
+  CarouselPrevious 
+} from "@/components/ui/carousel";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const IntegrationsSection = () => {
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   return (
-    <section id="integrations" className="py-16 md:py-24 bg-gradient-to-b from-white to-gray-50">
+    <section id="integrations" className="py-16 md:py-24 bg-gradient-to-b from-white to-gray-50 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-12 md:mb-16">
           <div className="flex items-center justify-center mb-4">
@@ -26,13 +35,35 @@ const IntegrationsSection = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {integrations.map((integration) => (
-            <IntegrationCard key={integration.id} integration={integration} />
-          ))}
+        <div className="mb-12 relative">
+          <Carousel
+            opts={{
+              align: "start",
+              loop: true,
+              dragFree: true,
+              containScroll: "trimSnaps"
+            }}
+            className="w-full"
+          >
+            <CarouselContent className="-ml-4">
+              {integrations.map((integration) => (
+                <CarouselItem 
+                  key={integration.id} 
+                  className={`pl-4 ${isMobile ? 'basis-full' : 'sm:basis-1/2 md:basis-1/3 lg:basis-1/4'}`}
+                >
+                  <IntegrationCard integration={integration} />
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            
+            <div className="absolute -bottom-12 w-full flex justify-center gap-2 mt-4">
+              <CarouselPrevious className="static transform-none mx-2 bg-white shadow-md hover:bg-gray-50" />
+              <CarouselNext className="static transform-none mx-2 bg-white shadow-md hover:bg-gray-50" />
+            </div>
+          </Carousel>
         </div>
 
-        <div className="text-center">
+        <div className="text-center mt-16">
           <Button
             onClick={() => navigate("/integrations")}
             size="lg"
