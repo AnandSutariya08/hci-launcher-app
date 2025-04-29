@@ -23,14 +23,15 @@ const IntegrationsSection = () => {
     const clone = content.cloneNode(true);
     scrollContainer.appendChild(clone);
 
-    // Animation function for continuous scroll
+    // Animation function for continuous scroll - SLOWER SPEED
     const animate = () => {
       if (!scrollContainer) return;
       
       if (scrollContainer.scrollLeft >= content.scrollWidth) {
         scrollContainer.scrollLeft = 0;
       } else {
-        scrollContainer.scrollLeft += 1;
+        // Reduced speed from 1px to 0.3px per frame
+        scrollContainer.scrollLeft += 0.3;
       }
       
       requestAnimationFrame(animate);

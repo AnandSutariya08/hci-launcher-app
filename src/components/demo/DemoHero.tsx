@@ -24,10 +24,10 @@ const DemoHero = ({ name, description, image, docsUrl }: DemoHeroProps) => {
       <div className="max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="order-2 lg:order-1">
-            <h1 className="text-4xl md:text-6xl font-bold text-hci-navy mb-6 leading-tight">{name}</h1>
-            <p className="text-xl text-gray-600 mb-8 leading-relaxed">{description}</p>
+            <h1 className="text-4xl md:text-6xl font-bold text-hci-navy mb-6 leading-tight animate-fade-in">{name}</h1>
+            <p className="text-xl text-gray-600 mb-8 leading-relaxed animate-fade-in">{description}</p>
             <Button 
-              className="bg-hci-blue hover:bg-hci-blue/90 text-white text-lg px-8 py-6 rounded-xl transform transition-transform hover:scale-105"
+              className="bg-hci-blue hover:bg-hci-blue/90 text-white text-lg px-8 py-6 rounded-xl transform transition-transform hover:scale-105 shadow-lg hover:shadow-xl"
               onClick={handleDemoClick}
             >
               Start Demo
